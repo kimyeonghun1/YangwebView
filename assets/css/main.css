@@ -1298,7 +1298,8 @@ ul.actions {
   display: flex;
   cursor: default;
   list-style: none;
-  margin-left: -1em;
+  margin: auto;
+  display: block;
   padding-left: 0; }
   ul.actions li {
     padding: 0 0 0 1em;
