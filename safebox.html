@@ -22,7 +22,7 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="index.html" class="logo"><strong>SafeBox List</strong> Manage</a>
+									<a href="index.html" class="logo"><strong>SafeBox </strong>List </a>
 									<ul class="icons">
 										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
@@ -38,17 +38,19 @@
 									<!-- <header class="main">
 										<h1></h1>
 									</header> -->
+                                    <h2>현장이름뜨게하기</h2> <h3> 설치 SAFEBOX 목록</h3>
+									
 
-									<h3>설치 SAFEBOX 목록</h3>
-
-													<h4>현장이름뜨게하기</h4> 
+													<h4>SAFEBOX ID / 위치 </h4> 
 													<div class="table-wrapper">
 														<table>
 															<thead>
 																<tr>
-																	<th>SAFEBOX ID</th>
-																	<th>SAFEBOX 위치</th>
+																	<th>SENSOR NAME</th>
+																	<th>SENSOR 종류</th>
 																	<th>ON/OFF</th>
+                                                                    <th>진동감지</th>
+                                                                    <th>기기상태</th>
 																	<th>기준농도</th>
                                                                     <th>측정주기</th>
                                                                     <th>설정변경</th>
@@ -61,10 +63,12 @@
                                                                     <td></td>
                                                                     <td></td>
                                                                     <td></td>
-																	<td><input type="button" value="수정"></td>
+                                                                    <td></td>
+                                                                    <td></td>
+																	<td><form action="sensorManage.html"><input type="submit" value="수정"></form></td>
 																	
 																</tr>
-																<tr>
+																<!-- <tr>
 																	<td>Item2</td>
 																	<td>Vis ac commodo adipiscing arcu aliquet.</td>
                                                                     <td></td>
@@ -97,9 +101,9 @@
                                                                     <td></td>
                                                                     <td></td>
                                                                     <td></td>
-																	<td><input type="button" value="수정"></td>
+																	<td><form action="sensorManage.html"><input type="button" value="수정"></form></td>
 																	
-																</tr>
+																</tr> -->
 															</tbody>
 															<tfoot>
 																<tr>
@@ -524,6 +528,7 @@ print 'It took ' + i + ' iterations to sort the deck.';
 										<h2>User</h2>
 									</header>
 									<ul>
+                                        <li><a href="main.html">Main</a></li>
 										<li><a href="login.html">Login</a></li>
 										<li><a href="join.html">Join</a></li>
 
@@ -553,7 +558,7 @@ print 'It took ' + i + ' iterations to sort the deck.';
 										<li><a href="index.html">Field List </a></li>
 										<li><a href="generic.html">Field List Manage</a></li>
 										<li><a href="elements.html">SafeBox List Manage</a></li>
-                                        <li><a href="safebox.html">SafeBox List</a></li>
+                                        <!-- <li><a href="safebox.html">SafeBox List</a></li> -->
 										<!-- <li>
 											<span class="opener">Submenu</span>
 											<ul>
