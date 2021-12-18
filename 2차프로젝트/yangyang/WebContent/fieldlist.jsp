@@ -1,3 +1,9 @@
+<%@page import="com.model.fieldVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.model.fieldDAO"%>
+
+<%@page import="com.model.adminDAO"%>
+<%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE HTML>
@@ -10,6 +16,13 @@
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body class="is-preload">
+			<%
+			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
+			adminVO vo = (adminVO)session.getAttribute("admin");
+			adminDAO dao = new adminDAO();
+			fieldDAO fielddao = new fieldDAO();
+		 	ArrayList<fieldVO> array_field_all = fielddao.fieldAllList();
+			%>
 
 <!-- Wrapper -->
 <div id="wrapper">
@@ -36,58 +49,21 @@
             <section>
 
                 <div class="posts">
+                <%for(fieldVO vo1_field : array_field_all){%>
                     <article>
                         <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                        <h3>현장명</h3>
-                        <p>현장주소</p>
+                        <h3><%=vo1_field.getField_seq() %>. <%=vo1_field.getField_name() %></h3>
+                        <p><%=vo1_field.getField_addr() %></p>
                         <div class="col-6 col-12-small">
                         <ul class="actions stacked">
-                            <li><a href="index.html" class="button primary fit " style="margin-right: 10px;">SAFEBOX 확인</a></li>
-                            <li><a href="fieldUpdate.html" class="button fit " style="margin-right: 10px;">현장 정보 수정</a></li>
-                            <li><a href="elements.html" class="button primary fit " style="margin-right: 10px;">설치 SAFEBOX 목록</a></li>
+                            <li><a href="sensorValue.jsp" class="button primary fit " style="margin-right: 10px;">SAFEBOX 확인</a></li>
+                            <li><a href="fieldUpdateCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button fit " style="margin-right: 10px;">현장 정보 수정</a></li>
+                            <li><a href="safeboxListCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button primary fit " style="margin-right: 10px;">설치 SAFEBOX 목록</a></li>
                         </ul>
                         </div>
-
                     </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                        <h3>현장명</h3>
-                        <p>현장주소</p>
-                        <div class="col-6 col-12-small">
-                            <ul class="actions stacked">
-                                <li><a href="index.html" class="button primary fit " style="margin-right: 10px;">SAFEBOX 확인</a></li>
-                                <li><a href="fieldUpdate.html" class="button fit " style="margin-right: 10px;">현장 정보 수정</a></li>
-                                <li><a href="elements.html" class="button primary fit " style="margin-right: 10px;">설치 SAFEBOX 목록</a></li>
-                            </ul>
-                        </div>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                        <h3>현장명</h3>
-                        <p>현장주소</p>
-                        <div class="col-6 col-12-small">
-                            <ul class="actions stacked">
-                                <li><a href="index.html" class="button primary fit " style="margin-right: 10px;">SAFEBOX 확인</a></li>
-                                <li><a href="fieldUpdate.html" class="button fit " style="margin-right: 10px;">현장 정보 수정</a></li>
-                                <li><a href="elements.html" class="button primary fit " style="margin-right: 10px;">설치 SAFEBOX 목록</a></li>
-                            </ul>
-                        </div>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                        <h3>현장명</h3>
-                        <p>현장주소</p>
-                        <div class="col-6 col-12-small">
-                            <ul class="actions stacked">
-                                <li><a href="index.html" class="button primary fit " style="margin-right: 10px;">SAFEBOX 확인</a></li>
-                                <li><a href="fieldUpdate.html" class="button fit " style="margin-right: 10px;">현장 정보 수정</a></li>
-                                <li><a href="elements.html" class="button primary fit " style="margin-right: 10px;">설치 SAFEBOX 목록</a></li>
-                            </ul>
-                        </div>
-                    </article>
-
-
-                </div>
+                    <%} %>
+                  </div>
             </section>
 
         </div>
@@ -108,12 +84,18 @@
             <nav id="menu">
 
                 <ul>
-                    <li><a href="login.html">로그인</a></li>
-                    <li><a href="mypage.html">회원정보수정</a></li>
+               		 <% if(vo==null){%>
+                   	 <li><a href="login.html">로그인</a></li>
+                   	 <%}else{ %>
+                     <li><a href="mypage.html">회원정보수정</a></li>
+                     <li><a href="logoutServlet" class="logo">로그아웃</a></li>
+					 <%} %>
+                    
                 </ul>
             </nav>
 
             <!-- Menu -->
+            <% if(vo!=null){%>
             <nav id="menu">
                 <header class="major">
                     <h2>현장 관리 메뉴</h2>
@@ -122,57 +104,37 @@
                     <li><a href="fieldlist.html">현장 목록 </a></li>
                     <li><a href="board_list.html">관리 일지</a></li>
                     <li><a href="notice.html">경고 발생 현황</a></li>
-                    <!-- <li><a href="elements.html">SafeBox List Manage</a></li> -->
-                    <!-- <li><a href="safebox.html">SafeBox List</a></li> -->
-                    <!-- <li>
-                        <span class="opener">Submenu</span>
-                        <ul>
-                            <li><a href="#">Lorem Dolor</a></li>
-                            <li><a href="#">Ipsum Adipiscing</a></li>
-                            <li><a href="#">Tempus Magna</a></li>
-                            <li><a href="#">Feugiat Veroeros</a></li>
-                        </ul>
-                    </li> -->
-
                 </ul>
             </nav>
-
-            <!-- Section -->
-            <!-- <section>
-                <header class="major">
-                    <h2>Ante interdum</h2>
-                </header>
-                <div class="mini-posts">
-                    <article>
-                        <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                </div>
-                <ul class="actions">
-                    <li><a href="#" class="button">More</a></li>
-                </ul>
-            </section> -->
-
-            <!-- Section -->
+            <%}else{%>
+            <nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="#">로그인이 필요합니다. </a></li>
+						
+					</ul>
+				</nav>
+				<%} %>
+            
+           
+                    
             <section>
                 <header class="major">
                     <h2>내 정보</h2>
                 </header>
-                <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                <ul class="contact">
-                    <li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-                    <li class="icon solid fa-phone">(000) 000-0000</li>
-                    <li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-                        Nashville, TN 00000-0000</li>
-                </ul>
+                	<ul class="contact">
+										<% if(vo!=null){%>
+										<li class="icon solid fa-envelope"><%=vo.getAdmin_email() %></li>
+										<li class="icon solid fa-phone"><%=vo.getAdmin_phone() %></li>
+										<li class="icon solid fa-home"><%=vo.getAdmin_dept() %></li>
+										<%}else{ %>
+										<li class="icon solid fa-envelope">이메일</li>
+										<li class="icon solid fa-phone">전화번호</li>
+										<li class="icon solid fa-home">소속</li>
+										<%} %>
+									</ul>
             </section>
 
             <!-- Footer -->

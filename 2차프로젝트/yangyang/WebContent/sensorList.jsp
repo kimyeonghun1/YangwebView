@@ -1,3 +1,10 @@
+<%@page import="com.model.adminDAO"%>
+<%@page import="com.model.adminVO"%>
+<%@page import="com.model.safeboxVO"%>
+<%@page import="com.model.safeboxDAO"%>
+<%@page import="com.model.sensorVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.model.sensorDAO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE HTML>
@@ -14,6 +21,17 @@
       <link rel="stylesheet" href="assets/css/main.css" />
    </head>
    <body class="is-preload">
+  		 <%
+			adminVO vo = (adminVO)session.getAttribute("admin");
+			adminDAO dao = new adminDAO();
+			sensorDAO sensordao = new sensorDAO();
+			
+			int safebox_seq_int_session = (int)session.getAttribute("safebox_seq_int_session");
+			
+			ArrayList<sensorVO> sensor_array_all = sensordao.sensorAllList(safebox_seq_int_session);
+			
+			
+		%>
 
     
       <!-- Wrapper -->
@@ -49,26 +67,21 @@
                                                    <th>삭제</th>
                                                 </tr>
                                              </thead>
-                                             <tbody>
-                                          
-                                                <tr>
-                                                   <td>seq</td>
-                                                   <td>name</td>
-                                                   <td>id</td>
-                                                   <td>date</td>
-                                                   <td><a href="sensorUpdateCheckService?sensor_seq=<%=vo2_sensor.getSensor_seq()%>" class="logo" style="outline: none; text-decoration: none;">수정</a></td>
-                                                   <td><a href="sensorDeleteService?sensor_seq=<%=vo2_sensor.getSensor_seq()%>" class="logo" style="outline: none; text-decoration: none;">삭제</a></td>
-                                                </tr>
-                                              
-                                             </tbody>
+                                            <%for(sensorVO vo2_sensor : sensor_array_all){%>
+																<tr>
+																	<td><%=vo2_sensor.getSensor_seq() %></td>
+																	<td><%=vo2_sensor.getSensor_name() %></td>
+																	<td><%=vo2_sensor.getSensor_id() %></td>
+																	<td><%=vo2_sensor.getReg_date() %></td>
+																	<td><a href="sensorUpdateCheckService?sensor_seq=<%=vo2_sensor.getSensor_seq()%>" class="logo" style="outline: none; text-decoration: none;">수정</a></td>
+																	<td><a href="sensorDeleteService?sensor_seq=<%=vo2_sensor.getSensor_seq()%>" class="logo" style="outline: none; text-decoration: none;">삭제</a></td>
+																</tr>
+																<%}%>
+															</tbody>
                                              
                                           </table>
                                        </div>
                                  
-                              
-
-                        </section>
-
                   </div>
                </div>
 
@@ -85,17 +98,19 @@
 
                         <nav id="menu">
                            <ul>
-                          
+                          	<% if(vo==null){%>
                               <li><a href="login.jsp">로그인</a></li>
+                              <%}else{ %>
                              
-                              
                               <li><a href="mypage.jsp">회원정보수정</a></li>                              
                               <li><a href="logoutServlet" class="logo">로그아웃</a></li>
+                              <%} %>
                              
                            </ul>
                         </nav>
 
                      <!-- Menu -->
+                     <% if(vo!=null){%>
                         <nav id="menu">
                            <header class="major">
                               <h2>현장 관리 메뉴</h2>
@@ -108,6 +123,17 @@
                              
                            </ul>
                         </nav>
+                        <%}else{%>
+				<nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="#">로그인이 필요합니다. </a></li>
+						
+					</ul>
+				</nav>
+				<%} %>
 
                     
                         <section>

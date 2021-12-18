@@ -1,3 +1,5 @@
+<%@page import="com.model.adminDAO"%>
+<%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE HTML>
@@ -14,7 +16,11 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
-
+<%
+			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
+			adminVO vo = (adminVO)session.getAttribute("admin");
+			adminDAO dao = new adminDAO();
+			%>
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -24,7 +30,7 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="fieldAdd.html" class="logo" style="font-size: 20px;"><strong>현장 추가 </strong></a>
+									<a href="fieldAdd.jsp" class="logo" style="font-size: 20px;"><strong>현장 추가 </strong></a>
 									
 								</header>
 
@@ -39,68 +45,28 @@
 									<form method="post" action="#">
                                         <div class="row gtr-uniform">
                                             <div class="row gtr-uniform">
-                                                <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="demo-name" id="demo-name" value="" placeholder="현장명" />
+                                                <div class="col-6 col-12-xsmall"> 
+                                               
+                                                    <input type="text" name="field_name" id="field_name" value="" placeholder="현장명" />
                                                 </div>
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="email" name="demo-email" id="demo-email" value="" placeholder="주소" />
+                                                    <input type="text" name="field_addr" id="field_addr" value="" placeholder="주소" />
                                                 </div>
                                                 <div class="col-12">
-                                                    <textarea name="demo-message" id="demo-message" placeholder="메모" rows="6"></textarea>
+                                                    <textarea name="field_memo" id="field_memo" placeholder="메모" rows="6"></textarea>
                                                 </div>
-                                                <!-- <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="demo-id" id="demo-name" value="" placeholder="아이디" />
-                                                </div>
-                                                <div class="col-6 col-12-xsmall">
-                                                    <input type="password" name="demo-pw" id="demo-email" value="" placeholder="비밀번호" />
-                                                </div>
-                                                <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="demo-phone" id="demo-email" value="" placeholder="전화번호" />
-                                                </div> -->
-                                            <!-- Break -->
-                                            <!-- <div class="col-12">
-                                                <select name="demo-category" id="demo-category">
-                                                    <option value="">- 소속 -</option>
-                                                    <option value="1">Manufacturing</option>
-                                                    <option value="1">Shipping</option>
-                                                    <option value="1">Administration</option>
-                                                    <option value="1">Human Resources</option>
-                                                </select>
-                                            </div> -->
-                                            <!-- Break -->
-                                            <!-- <div class="col-4 col-12-small">
-                                                <input type="radio" id="demo-priority-low" name="demo-priority" checked>
-                                                <label for="demo-priority-low">Low</label>
-                                            </div>
-                                            <div class="col-4 col-12-small">
-                                                <input type="radio" id="demo-priority-normal" name="demo-priority">
-                                                <label for="demo-priority-normal">Normal</label>
-                                            </div>
-                                            <div class="col-4 col-12-small">
-                                                <input type="radio" id="demo-priority-high" name="demo-priority">
-                                                <label for="demo-priority-high">High</label>
-                                            </div> -->
-                                            <!-- Break -->
-                                            <!-- <div class="col-6 col-12-small">
-                                                <input type="checkbox" id="demo-copy" name="demo-copy">
-                                                <label for="demo-copy">Email me a copy</label>
-                                            </div>
-                                            <div class="col-6 col-12-small">
-                                                <input type="checkbox" id="demo-human" name="demo-human" checked>
-                                                <label for="demo-human">I am a human</label>
-                                            </div> -->
-                                            <!-- Break -->
-                                            <!-- <div class="col-12">
-                                                <textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-                                            </div> -->
+                                                
                                             <!-- Break -->
                                             <div class="col-12" style="text-align: center;">
                                                 <ul class="actions" >
-                                                    <li><input type="submit" value="추가" class="primary" style="margin-right: 10px;" ><input type="reset" value="초기화" style="margin-left: 10px;"></li>
-                                                    
+                                                    <li>
+                                                    <input type="submit" value="추가" class="primary" style="margin-right: 10px;" onclick="fieldAddCheck()">
+                                                    <input type="reset" value="초기화" style="margin-left: 10px;">
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
+                                       </div>
                                     </form>
 
 									<!-- <hr class="major" />
@@ -138,61 +104,45 @@
 								</section>
 
 								
-									<nav id="menu">
-									
+									<nav id="menu">	
 										<ul>
-											<li><a href="login.html">로그인</a></li>
-											<li><a href="mypage.html">회원정보수정</a></li>
-										</ul>
-									</nav>
-	
-								<!-- Menu -->
-									<nav id="menu">
-										<header class="major">
-											<h2>현장 관리 메뉴</h2>
-										</header>
-										<ul>
-											<li><a href="fieldlist.html">현장 목록 </a></li>
-											<li><a href="board_list.html">관리 일지</a></li>
-											  <li><a href="notice.html">경고 발생 현황</a></li>
-											<!-- <li><a href="elements.html">SafeBox List Manage</a></li> -->
-											<!-- <li><a href="safebox.html">SafeBox List</a></li> -->
-											<!-- <li>
-												<span class="opener">Submenu</span>
-												<ul>
-													<li><a href="#">Lorem Dolor</a></li>
-													<li><a href="#">Ipsum Adipiscing</a></li>
-													<li><a href="#">Tempus Magna</a></li>
-													<li><a href="#">Feugiat Veroeros</a></li>
-												</ul>
-											</li> -->
-											
-										</ul>
-									</nav>
-	
-								<!-- Section -->
-									<!-- <section>
-										<header class="major">
-											<h2>Ante interdum</h2>
-										</header>
-										<div class="mini-posts">
-											<article>
-												<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-											</article>
-											<article>
-												<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-											</article>
-											<article>
-												<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-											</article>
-										</div>
-										<ul class="actions">
-											<li><a href="#" class="button">More</a></li>
-										</ul>
-									</section> -->
+										<% if(vo==null){%>
+										<li><a href="login.jsp">로그인</a></li>
+										<%}else{ %>
+										
+										<li><a href="mypage.jsp">회원정보수정</a></li>										
+										<li><a href="logoutServlet" class="logo">로그아웃</a></li>
+										<%} %>
+									</ul>
+								</nav>
+
+							<!-- Menu -->
+								<% if(vo!=null){%>
+				<nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="fieldlist.jsp">현장 목록 </a></li>
+						<li><a href="board_list.jsp">관리 일지</a></li>
+						<li><a href="notice.jsp">경고 발생 현황</a></li>
+
+						
+					</ul>
+				</nav>
+				<%}else{%>
+				<nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="#">로그인이 필요합니다. </a></li>
+						
+
+						
+					</ul>
+				</nav>
+				<%} %>
 	
 								<!-- Section -->
 									<section>
@@ -201,10 +151,15 @@
 										</header>
 									
 									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
+										<% if(vo!=null){%>
+										<li class="icon solid fa-envelope"><%=vo.getAdmin_email() %></li>
+										<li class="icon solid fa-phone"><%=vo.getAdmin_phone() %></li>
+										<li class="icon solid fa-home"><%=vo.getAdmin_dept() %></li>
+										<%}else{ %>
+										<li class="icon solid fa-envelope">이메일</li>
+										<li class="icon solid fa-phone">전화번호</li>
+										<li class="icon solid fa-home">소속</li>
+										<%} %>
 									</ul>
 								</section>
 
@@ -225,5 +180,34 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+		<script>
+			function fieldAddCheck() {
+				
+				var field_name = document.getElementById("field_name");
+				var field_addr = document.getElementById("field_addr");
+				var field_memo = document.getElementById("field_memo");
+				
+				$.ajax({
+					type : "post", //데이터 전송 요청 방식
+					data : {"field_name" : field_name.value,
+						"field_addr" : field_addr.value,
+						"field_memo" : field_memo.value
+						}, //전송하는 데이터
+					url : "fieldAddCheckService", //데이터를 전송, 요청하는 서버 페이지
+					dataType : "text", //응답데이터의 형식
+					success : function(data){ //통신 성공
+						
+						if(data=="0"){
+							alert('다시 시도해 주세요.')
+							
+						}else{
+							confirm('현장 추가 완료되었습니다.')
+						}
+					},
+					error : function(){ //통신 실패
+					}
+				});
+			} 
+		</script>
 	</body>
 </html>

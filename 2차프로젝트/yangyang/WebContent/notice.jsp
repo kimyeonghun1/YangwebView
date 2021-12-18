@@ -1,3 +1,5 @@
+<%@page import="com.model.adminDAO"%>
+<%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE HTML>
@@ -17,6 +19,11 @@
         
     </style>
 	<body class="is-preload">
+			<%
+			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
+			adminVO vo = (adminVO)session.getAttribute("admin");
+			adminDAO dao = new adminDAO();
+			%>
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -47,7 +54,6 @@
                                                 <tr>
                                                     <th>번호</th>
                                                     <th>SAFEBOX ID</th>
-
                                                     <th>센서 ID</th>
                                                     <th>알림 내용 </th>
                                                     <th>확인</th>
@@ -58,7 +64,6 @@
                                                 <tr>
                                                     <td>1</td>
                                                     <td>safebox1</td>
-
                                                     <td>sensor1</td>
                                                     <td>농도 100ppm 노출</td>
                                                     <td><a href="#" class="logo" style="outline: none; text-decoration: none;">이동</a></td>
@@ -115,12 +120,17 @@
 								<nav id="menu">
 									
 									<ul>
+										<%if(vo==null) {%>
 										<li><a href="login.html">로그인</a></li>
+										<%}else{ %>
 										<li><a href="mypage.html">회원정보수정</a></li>
+										<li><a href="LogoutServlet" class="logo"></a>로그아웃</li>
+										<%} %>
 									</ul>
 								</nav>
 
 							<!-- Menu -->
+							<% if(vo!=null){%>
 								<nav id="menu">
 									<header class="major">
 										<h2>현장 관리 메뉴</h2>
@@ -129,56 +139,36 @@
 										<li><a href="fieldlist.html">현장 목록 </a></li>
 										<li><a href="board_list.html">관리 일지</a></li>
                               			<li><a href="notice.html">경고 발생 현황</a></li>
-										<!-- <li><a href="elements.html">SafeBox List Manage</a></li> -->
-										<!-- <li><a href="safebox.html">SafeBox List</a></li> -->
-										<!-- <li>
-											<span class="opener">Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li> -->
 										
 									</ul>
 								</nav>
+								<%}else{%>
+				<nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="#">로그인이 필요합니다. </a></li>
+					</ul>
+				</nav>
+				<%} %>
 
-							<!-- Section -->
-								<!-- <section>
-									<header class="major">
-										<h2>Ante interdum</h2>
-									</header>
-									<div class="mini-posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-									</div>
-									<ul class="actions">
-										<li><a href="#" class="button">More</a></li>
-									</ul>
-								</section> -->
-
-							<!-- Section -->
+							
 								<section>
 									<header class="major">
 										<h2>내 정보</h2>
 									</header>
 									
 									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
+										<% if(vo!=null){%>
+										<li class="icon solid fa-envelope"><%=vo.getAdmin_email() %></li>
+										<li class="icon solid fa-phone"><%=vo.getAdmin_phone() %></li>
+										<li class="icon solid fa-home"><%=vo.getAdmin_dept() %></li>
+										<%}else{ %>
+										<li class="icon solid fa-envelope">이메일</li>
+										<li class="icon solid fa-phone">전화번호</li>
+										<li class="icon solid fa-home">소속</li>
+										<%} %>
 									</ul>
 								</section>
 

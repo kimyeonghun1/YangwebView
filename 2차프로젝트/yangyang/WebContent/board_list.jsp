@@ -1,3 +1,5 @@
+<%@page import="com.model.adminDAO"%>
+<%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE HTML>
@@ -27,7 +29,11 @@
 	
 	</style>
 	<body class="is-preload">
-
+			<%
+			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
+			adminVO vo = (adminVO)session.getAttribute("admin");
+			adminDAO dao = new adminDAO();
+			%>
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -37,11 +43,12 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="safeboxcheck.html" class="logo" style="font-size: 20px;"><strong>관리 일지 목록</strong></a>
+									<a href="safeboxcheck.jsp" class="logo" style="font-size: 20px;"><strong>관리 일지 목록</strong></a>
 									<ul class="icons">
-										<li><a href="fieldlist.html" class="logo"><span class="label"><strong>현장목록</strong></span></a></li>
+									<li><a href="notice.jsp" class="logo"><span class="label"><strong>경고발생현황</strong></span></a></li>
+										<li><a href="fieldlist.jsp" class="logo"><span class="label">현장목록</span></a></li>
                               			
-                                        <li><a href="notice.html" class="logo"><span class="label">경고발생현황</span></a></li>  										
+                                          										
 									</ul>
 								</header>
 
@@ -66,35 +73,35 @@
 													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
-													<div class="count"><a href="board_edit.html" class="button">수정</a></div>
+													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">4</div>
 													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
-													<div class="count"><a href="board_edit.html" class="button">수정</a></div>
+													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">3</div>
 													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
-													<div class="count"><a href="board_edit.html" class="button">수정</a></div>
+													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">2</div>
 													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
-													<div class="count"><a href="board_edit.html" class="button">수정</a></div>
+													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">1</div>
 													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
-													<div class="count"><a href="board_edit.html" class="button">수정</a></div>
+													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 											</div>
 											<br><br><br>
@@ -112,7 +119,7 @@
 											</ul>
 											</div>
 											<ul class="pagination">
-											<a href="board_write.html" ><input type="submit" value="등록" class="primary" /></a>
+											<a href="board_write.jsp" ><input type="submit" value="등록" class="primary" /></a>
 											</ul>	
 										</div>
 									</div>
@@ -135,34 +142,43 @@
 								<nav id="menu">
 									
 									<ul>
-										<li><a href="login.html">로그인</a></li>
-										<li><a href="mypage.html">회원정보수정</a></li>
+										<% if(vo==null){%>
+										<li><a href="login.jsp">로그인</a></li>
+										<%}else{ %>
+										
+										<li><a href="mypage.jsp">회원정보수정</a></li>										
+										<li><a href="logoutServlet" class="logo">로그아웃</a></li>
+										<%} %>
 									</ul>
 								</nav>
 
 							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>현장 관리 메뉴</h2>
-									</header>
-									<ul>
-										<li><a href="fieldlist.html">현장 목록 </a></li>
-										<li><a href="board_list.html">관리 일지</a></li>
-                              			<li><a href="notice.html">경고 발생 현황</a></li>
-										<!-- <li><a href="elements.html">SafeBox List Manage</a></li> -->
-										<!-- <li><a href="safebox.html">SafeBox List</a></li> -->
-										<!-- <li>
-											<span class="opener">Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li> -->
-										
-									</ul>
-								</nav>
+								<% if(vo!=null){%>
+				<nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="fieldlist.jsp">현장 목록 </a></li>
+						<li><a href="board_list.jsp">관리 일지</a></li>
+						<li><a href="notice.jsp">경고 발생 현황</a></li>
+
+						
+					</ul>
+				</nav>
+				<%}else{%>
+				<nav id="menu">
+					<header class="major">
+						<h2>현장 관리 메뉴</h2>
+					</header>
+					<ul>
+						<li><a href="#">로그인이 필요합니다. </a></li>
+						
+
+						
+					</ul>
+				</nav>
+				<%} %>
 
 							<!-- Section -->
 								<!-- <section>
@@ -195,10 +211,15 @@
 									</header>
 									
 									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
+										<% if(vo!=null){%>
+										<li class="icon solid fa-envelope"><%=vo.getAdmin_email() %></li>
+										<li class="icon solid fa-phone"><%=vo.getAdmin_phone() %></li>
+										<li class="icon solid fa-home"><%=vo.getAdmin_dept() %></li>
+										<%}else{ %>
+										<li class="icon solid fa-envelope">이메일</li>
+										<li class="icon solid fa-phone">전화번호</li>
+										<li class="icon solid fa-home">소속</li>
+										<%} %>
 									</ul>
 								</section>
 
