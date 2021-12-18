@@ -1,0 +1,54 @@
+package com.model;
+
+public class fieldVO {
+	
+	private String fieldSeq; //현장번호pk
+	private static String fieldName; //현장이름
+	private static String fieldAddr; //현장주소
+	private static String fieldMemo; //현장메모
+	
+	public fieldVO(String fieldSeq, String fieldName, String fieldAddr, String fieldMemo) {
+		super();
+		this.fieldSeq = fieldSeq;
+		this.fieldName = fieldName;
+		this.fieldAddr = fieldAddr;
+		this.fieldMemo = fieldMemo;
+	}
+
+	public String getFieldSeq() {
+		return fieldSeq;
+	}
+
+	public void setFieldSeq(String fieldSeq) {
+		this.fieldSeq = fieldSeq;
+	}
+
+	public static String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public static String getFieldAddr() {
+		return fieldAddr;
+	}
+
+	public void setFieldAddr(String fieldAddr) {
+		this.fieldAddr = fieldAddr;
+	}
+
+	public static String getFieldMemo() {
+		return fieldMemo;
+	}
+
+	public void setFieldmemo(String fieldMemo) {
+		this.fieldMemo = fieldMemo;
+	}
+	
+	
+	
+	
+}
+

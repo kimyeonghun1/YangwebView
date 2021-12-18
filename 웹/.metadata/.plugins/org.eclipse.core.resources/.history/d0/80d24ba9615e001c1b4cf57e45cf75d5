@@ -1,0 +1,24 @@
+package com.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/fieldServlet")
+public class fieldServlet extends HttpServlet {
+	
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 지금 여기는 서블릿이잖아요  
+		// jsp 파일에서 
+		//정보를 받아와야 되거든요? 옹옹
+		
+		
+	}
+
+	
+
+}

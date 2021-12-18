@@ -1,0 +1,51 @@
+<%@page import="com.model.fieldVO"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<%@ page import="com.model.fieldDAO"%>
+<%@ page import="java.io.PrintWriter"%>
+<%request.setCharacterEncoding("EUC-KR"); %>
+<jsp:useBean id="fieldVO" class="com.model.fieldVO"  scope="page"/>
+<jsp:setProperty name="fieldVO" property="fieldName"/>
+<jsp:setProperty name="fieldVO" property="fieldAddr"/>
+<jsp:setProperty name="fieldVO" property="fieldMemo"/>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+		String admin_id = null;
+		if(session.getAttribute("admin_id") != null){
+			admin_id = (String) session.getAttribute("userID");
+		}
+		if(admin_id == null){
+			PrintWriter script = response.getWriter();//자바에서 script 사용하겠다.
+			script.println("<script>");
+			script.println("alert('로그인이 필요합니다.')");
+			script.println("location.href = 'login.jsp");
+			script.println("</script>");
+			
+		}else{
+			if(fieldVO.)
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	--%>
+
+</body>
+</html>
