@@ -42,7 +42,7 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="safeboxadd.html" class="logo" style="font-size: 20px;"><strong>센서 정보 수정</strong> </a>
+									<a href="safeboxadd.jsp" class="logo" style="font-size: 20px;"><strong>센서 정보 수정</strong> </a>
 									<ul class="icons">
 										
 									</ul>

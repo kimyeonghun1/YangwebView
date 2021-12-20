@@ -33,11 +33,11 @@
 
             <!-- Header -->
             <header id="header">
-                <a href="fieldlist.html" class="logo" style="font-size: 20px;"><strong>현장 목록</strong></a>
+                <a href="fieldlist.jsp" class="logo" style="font-size: 20px;"><strong>현장 목록</strong></a>
                 <ul class="icons">
-                    <li><a href="fieldAdd.html" class="logo"><span class="label">현장추가</span></a></li>
-                    <li><a href="notice.html" class="logo"><span class="label"><strong>경고발생현황</strong></span></a></li>
-                    <li><a href="board_list.html".html" class="logo"><span class="label">관리일지</span></a></li>
+                    <li><a href="fieldAdd.jsp" class="logo"><span class="label">현장추가</span></a></li>
+                    <li><a href="notice.jsp" class="logo"><span class="label"><strong>경고발생현황</strong></span></a></li>
+                    <li><a href="board_list.jsp" class="logo"><span class="label">관리일지</span></a></li>
 
 
                 </ul>
@@ -85,9 +85,9 @@
 
                 <ul>
                		 <% if(vo==null){%>
-                   	 <li><a href="login.html">로그인</a></li>
+                   	 <li><a href="login.jsp">로그인</a></li>
                    	 <%}else{ %>
-                     <li><a href="mypage.html">회원정보수정</a></li>
+                     <li><a href="mypage.jsp">회원정보수정</a></li>
                      <li><a href="logoutServlet" class="logo">로그아웃</a></li>
 					 <%} %>
                     
@@ -101,9 +101,9 @@
                     <h2>현장 관리 메뉴</h2>
                 </header>
                 <ul>
-                    <li><a href="fieldlist.html">현장 목록 </a></li>
-                    <li><a href="board_list.html">관리 일지</a></li>
-                    <li><a href="notice.html">경고 발생 현황</a></li>
+                    <li><a href="fieldlist.jsp">현장 목록 </a></li>
+                    <li><a href="board_list.jsp">관리 일지</a></li>
+                    <li><a href="notice.jsp">경고 발생 현황</a></li>
                 </ul>
             </nav>
             <%}else{%>

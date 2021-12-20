@@ -61,7 +61,7 @@
                            <ul class="icons">
                               
                               <li><a href="notice.jsp" class="logo"><span class="label"><strong>版绊惯积泅炔</strong></span></a></li>
-                              <li><a href="board_list.jsp".html" class="logo"><span class="label">包府老瘤</span></a></li>
+                              <li><a href="board_list.jsp".jsp" class="logo"><span class="label">包府老瘤</span></a></li>
                                
                               
                            </ul>

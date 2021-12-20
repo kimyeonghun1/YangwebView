@@ -70,35 +70,35 @@
 												</div>
 												<div>
 													<div class="num">5</div>
-													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
+													<div class="title"><a href="view.jsp">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
 													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">4</div>
-													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
+													<div class="title"><a href="view.jsp">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
 													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">3</div>
-													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
+													<div class="title"><a href="view.jsp">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
 													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">2</div>
-													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
+													<div class="title"><a href="view.jsp">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
 													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>
 												</div>
 												<div>
 													<div class="num">1</div>
-													<div class="title"><a href="view.html">글 제목이 들어갑니다.</a></div>
+													<div class="title"><a href="view.jsp">글 제목이 들어갑니다.</a></div>
 													<div class="writer">김이름</div>
 													<div class="date">2021.1.15</div>
 													<div class="count"><a href="board_edit.jsp" class="button">수정</a></div>

@@ -151,9 +151,9 @@
 										<h2>현장 관리 메뉴</h2>
 									</header>
 									<ul>
-										<li><a href="fieldlist.html">현장 목록 </a></li>
-										<li><a href="board_list.html">관리 일지</a></li>
-                              			<li><a href="notice.html">경고 발생 현황</a></li>
+										<li><a href="fieldlist.jsp">현장 목록 </a></li>
+										<li><a href="board_list.jsp">관리 일지</a></li>
+                              			<li><a href="notice.jsp">경고 발생 현황</a></li>
 										<!-- <li><a href="elements.html">SafeBox List Manage</a></li> -->
 										<!-- <li><a href="safebox.html">SafeBox List</a></li> -->
 										<!-- <li>
