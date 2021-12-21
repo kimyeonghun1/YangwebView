@@ -60,7 +60,7 @@
                                             <div class="col-12" style="text-align: center;">
                                                 <ul class="actions" >
                                                     <li>
-                                                    <input type="submit" value="추가" class="primary" style="margin-right: 10px;" onclick="fieldAddCheck()">
+                                                    <input type="button" value="추가" class="primary" style="margin-right: 10px;" onclick="fieldAddCheck()">
                                                     <input type="reset" value="초기화" style="margin-left: 10px;">
                                                     </li>
                                                 </ul>
@@ -181,33 +181,46 @@
 			<script src="assets/js/main.js"></script>
 
 		<script>
-			function fieldAddCheck() {
-				
-				var field_name = document.getElementById("field_name");
-				var field_addr = document.getElementById("field_addr");
-				var field_memo = document.getElementById("field_memo");
+		function fieldAddCheck() {
+			
+			let field_name = document.getElementById("field_name");
+			let field_addr = document.getElementById("field_addr");
+			let field_memo = document.getElementById("field_memo");
+			
+			//if(field_name!="" && field_addr != ""){
 				
 				$.ajax({
+					
 					type : "post", //데이터 전송 요청 방식
 					data : {"field_name" : field_name.value,
 						"field_addr" : field_addr.value,
 						"field_memo" : field_memo.value
 						}, //전송하는 데이터
 					url : "fieldAddCheckService", //데이터를 전송, 요청하는 서버 페이지
-					dataType : "text", //응답데이터의 형식
+					dataType : "text", 
 					success : function(data){ //통신 성공
 						
-						if(data=="0"){
-							alert('다시 시도해 주세요.')
-							
+						if(data!="0"){
+							alert("현장 추가 완료되었습니다.");
+							window.location.href = "fieldlist.jsp"; 
 						}else{
-							confirm('현장 추가 완료되었습니다.')
+							alert("현장 추가 실패 되었습니다.");
+							window.location.href = "fieldAdd.jsp"; 
 						}
+							
+						
 					},
 					error : function(){ //통신 실패
+						
+						
 					}
 				});
-			} 
+			
+			//}
+			
+			
+				
+		}
 		</script>
 	</body>
 </html>

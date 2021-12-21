@@ -39,7 +39,11 @@ public class safeboxVO {
 		return device_seq;
 	}
 
-	
+	public safeboxVO(String device_id, String device_location) {
+		super();
+		this.device_id = device_id;
+		this.device_location = device_location;
+	}
 
 	public void setDevice_seq(int device_seq) {
 		this.device_seq = device_seq;

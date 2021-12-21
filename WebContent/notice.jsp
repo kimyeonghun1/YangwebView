@@ -1,3 +1,8 @@
+<%@page import="com.model.safeboxVO"%>
+<%@page import="com.model.safeboxDAO"%>
+<%@page import="com.model.noticeVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.model.noticeDAO"%>
 <%@page import="com.model.adminDAO"%>
 <%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
@@ -23,6 +28,11 @@
 			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
 			adminVO vo = (adminVO)session.getAttribute("admin");
 			adminDAO dao = new adminDAO();
+			
+			noticeDAO noticedao = new noticeDAO();
+			ArrayList<noticeVO> notice_array = noticedao.noticeAllList();
+			
+			safeboxDAO safeboxdao = new safeboxDAO();
 			%>
 
 		<!-- Wrapper -->
@@ -54,39 +64,25 @@
                                                 <tr>
                                                     <th>번호</th>
                                                     <th>SAFEBOX ID</th>
-                                                    <th>센서 ID</th>
+                                                    
                                                     <th>알림 내용 </th>
+                                                    <th>알림 날짜</th>
                                                     <th>확인</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <% for(noticeVO noticevo : notice_array) {
+                                            	safeboxVO safeboxvo = safeboxdao.safeboxSelect(noticevo.getDevice_seq());%>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>safebox1</td>
-                                                    <td>sensor1</td>
-                                                    <td>농도 100ppm 노출</td>
+                                                    <td><%=noticevo.getNotice_seq() %></td>
+                                                    <td><%=safeboxvo.getDevice_id() %></td>
+                                                    <td><%=noticevo.getNotice_content() %></td>
+                                                    <td><%=noticevo.getNotice_date() %></td>
                                                     <td><a href="#" class="logo" style="outline: none; text-decoration: none;">이동</a></td>
                                                     <td><div class="col-6 col-12-small"><input type="checkbox" id="1" name="1"><label for="1"></label></div></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>safebox2</td>
-
-                                                    <td>sensor2</td>
-                                                    <td>농도 100ppm 노출</td>
-                                                    <td><a href="#" class="logo" style="outline: none; text-decoration: none;">이동</a></td>
-                                                    <td><div class="col-6 col-12-small"><input type="checkbox" id="2" name="2"><label for="2"></label></div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>safebox3</td>
-
-                                                    <td>sensor3</td>
-                                                    <td>농도 100ppm 노출</td>
-                                                    <td><a href="#" class="logo" style="outline: none; text-decoration: none;">이동</a></td>
-                                                    <td><div class="col-6 col-12-small"><input type="checkbox" id="3" name="3"><label for="3"></label></div></td>
-                                                </tr>
+                                                <%} %>
                                                 
                                                 
                                             </tbody>
@@ -124,7 +120,7 @@
 										<li><a href="login.jsp">로그인</a></li>
 										<%}else{ %>
 										<li><a href="mypage.jsp">회원정보수정</a></li>
-										<li><a href="LogoutServlet" class="logo"></a>로그아웃</li>
+										<li><a href="LogoutServlet" class="logo">로그아웃</a></li>
 										<%} %>
 									</ul>
 								</nav>

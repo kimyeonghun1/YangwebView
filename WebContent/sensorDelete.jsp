@@ -1,3 +1,5 @@
+<%@page import="com.model.adminDAO"%>
+<%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
@@ -11,7 +13,10 @@
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body class="is-preload">
-
+	<%
+	adminVO vo = (adminVO)session.getAttribute("admin");
+	adminDAO dao = new adminDAO();
+	%>
         <!-- Wrapper -->
         <div id="wrapper">
 
