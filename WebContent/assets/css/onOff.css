@@ -1,0 +1,142 @@
+/* Styles for on/off toggle */
+.toggle--on-off {
+  display: flex;
+}
+.toggle--on-off .toggle__checkbox:not(:checked) ~ .toggle__backdrop::before {
+  opacity: 0;
+}
+.toggle--on-off .toggle__checkbox:checked ~ .toggle__backdrop {
+  background-color: #67942a;
+}
+.toggle--on-off .toggle__checkbox:checked ~ .toggle__backdrop::after {
+  opacity: 0;
+}
+.toggle--on-off .toggle__checkbox:not(:checked) + .toggle__handle::before {
+  opacity: 0;
+}
+.toggle--on-off .toggle__backdrop::before {
+  position: absolute;
+  left: 8px;
+  color: #fff;
+  content: "On";
+  transition: opacity 0.1s ease-out;
+}
+.toggle--on-off .toggle__backdrop::after {
+  position: absolute;
+  right: 5px;
+  color: #999;
+  content: "Off";
+  transition: opacity 0.1s ease-out;
+}
+/* Styles for left/right toggle */
+.toggle--left-right {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.toggle--left-right .toggle__option {
+  display: inline-block;
+  color: #999;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.toggle--left-right .toggle__backdrop::before {
+  content: none;
+}
+.toggle--left-right .toggle__backdrop::after {
+  content: none;
+}
+.is-left-selected .toggle__option:first-child,
+.is-right-selected .toggle__option:last-child {
+  color: #236690;
+}
+/* Toggle switch */
+.toggle__switch {
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  width: 45px;
+  height: 18px;
+  border-radius: 18px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.toggle__label {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.toggle__checkbox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.toggle__checkbox:checked + .toggle__handle {
+  transform: translateX(29px);
+}
+.toggle__handle {
+  position: absolute;
+  top: 2px;
+  z-index: 1;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 14px;
+  background-color: #fff;
+  transition: transform 0.1s ease-out;
+  transform: translateX(2px);
+}
+.toggle__backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background-color: #ddd;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 11px;
+  line-height: 18px;
+  transition: background-color 0.1s ease-out;
+}
+/* Irrelevant presentational styles */
+html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #234;
+  background-color: #fefefe;
+  font-size: 14px;
+  height: 100%;
+}
+h1,
+h3 {
+  font-family: Futura, sans-serif;
+  margin: 10px 0;
+}
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.container > div {
+  margin-bottom: 35px;
+}
+.animations-container {
+  margin: 25px -10px -10px;
+  padding: 1px 10px 10px;
+  background-color: #fbf9c7;
+  border-radius: 4px;
+}
+/* Disable animations */
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  transition: none !important;
+}
