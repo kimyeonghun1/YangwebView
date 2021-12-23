@@ -1,3 +1,8 @@
+<%@page import="com.model.safeboxVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.model.safeboxDAO"%>
+<%@page import="com.model.boardVO"%>
+<%@page import="com.model.boardDAO"%>
 <%@page import="com.model.adminDAO"%>
 <%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
@@ -25,14 +30,51 @@
 		.board_wrap {
 			position: relative;
 		}
-		
+		.filebox .upload-name {
+			display: inline-block;
+			height: 40px;
+			padding: 0 10px;
+			vertical-align: middle;
+			margin-bottom: 12px;
+			border: 1px solid #dddddd;
+			width: 50%;
+			color: #999999;
+		}
+		.filebox label {
+			display: inline-block;
+			padding: 10px 20px;
+			color: #fff;
+			vertical-align: middle;
+			
+			background-color: #999999;
+			cursor: pointer;
+			height: 40px;
+			margin-left: 10px;
+		}
+		.filebox input[type="file"] {
+    		position: absolute;
+    		width: 0;
+    		height: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		border: 0;
+		}
 	
 	</style>
 	<body class="is-preload">
 			<%
+			
+			int mnt_seq = (int)session.getAttribute("mnt_seq_session");
+			boardDAO boarddao = new boardDAO();
+			boardVO boardvo = boarddao.board_one(mnt_seq);
+			
 			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
 			adminVO vo = (adminVO)session.getAttribute("admin");
 			adminDAO dao = new adminDAO();
+			
+			safeboxDAO safeboxdao = new safeboxDAO();
+			ArrayList<safeboxVO> safebox_array_all = safeboxdao.safeboxList();
+			session.setAttribute("mnt_seq_session_again", mnt_seq);
 			%>
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -54,32 +96,43 @@
 									<div class="board_wrap">
 										<div class="board_write_wrap">
 											<div class="board_write">
+											<form method="post" action="boardEdit">
 												<div class="title">
 													<dl>
 														<dt>제목</dt>
-														<dd><input type="text" placeholder="제목 입력" value="글 제목이 들어갑니다"></dd>
+														<dd><input type="text" name="mnt_title" value="<%=boardvo.getMnt_title() %>" placeholder="제목 입력" value="글 제목이 들어갑니다"></dd>
 													</dl>
 												</div>
 												<div class="info">
 													<dl>
-														<dt>글쓴이</dt>
-														<dd><input type="text" placeholder="글쓴이 입력" value="김이름"></dd>
+														<dt>SAFEBOX 선택</dt>
+														<dd><select name="device_seq" id="demo-category">
+			                                                    <option value=""> SAFEBOX LIST </option>
+			                                                    <%for(safeboxVO vo2_safebox : safebox_array_all){%>
+			                                                    <option ><%=vo2_safebox.getDevice_id() %>/<%=vo2_safebox.getDevice_seq() %></option>
+			                                                    <%}%>
+			                                                </select></dd>
 													</dl>
 													<dl>
 														<dt>사진첨부</dt>
-														<dd><a href="#" class="button icon solid fa-download">첨부</a></dd>
+														<dd><div class="filebox">
+																<input class="upload-name" name ="mnt_file"  placeholder="첨부파일">
+																<label for="file">파일찾기</label>
+																<input type="file" id="file">
+															</div></dd>
 													</dl>
 												</div>
 												<div class="cont">
-													<textarea placeholder="내용 입력">
-														글 내용이 들어갑니다.
-													</textarea>
+													<img src="<%=boardvo.getMnt_file() %>">
+													<textarea placeholder="내용 입력" name="mnt_content"><%=boardvo.getMnt_content() %></textarea>
 												</div>
 											</div>
 											<ul class="pagination">
-												<a href="board_view.jsp" ><input type="submit" value="수정" class="primary" /></a>
-												<a href="board_list.jsp" ><input type="submit" value="취소" class="primary" /></a>	
+												<input type="submit" value="수정" class="primary" />
+												<a href="boardDeleteService?mnt_seq=<%=mnt_seq %>" class="button">삭제</a>
+												<a href="board_list.jsp" class="button">취소</a>	
 											</ul>
+											</form>
 										</div>
 									</div>
 								</section>
@@ -176,5 +229,56 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+<script>
+
+//파일 선택 시 경로 뜨는 제이쿼리 지우면 안됩니다!!
+$("#file").on('change',function(){
+	var fileName = $("#file").val();
+	$(".upload-name").val(fileName);
+  });
+  
+				function gascheck() {	
+					setInterval(() => {
+						$.ajax({
+							type : "get", 
+							/* data : {"email" : input.value}, */
+							url : "gasgasCheck", 
+							dataType : "text", 
+							success : function(data){
+								
+								if(data=="1"){
+									let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+									if(check){
+										window.location.href = "notice.jsp";
+										
+									}							
+								}
+							},
+							error : function(){ //통신 실패
+							}
+						});
+						
+						  $.ajax({
+							type : "get", 
+							url : "transeService", 
+							dataType : "text",
+							data : {'data' : '통신 성공'},
+							success : function(data){ 
+								console.log(data)
+							},
+							error : function(){
+							}
+						});  
+					
+					}, 1000);
+					
+				}
+				gascheck();
+				
+			
+			
+				
+			</script>
+			
 	</body>
 </html>

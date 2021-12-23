@@ -1,3 +1,7 @@
+<%@page import="com.model.safeboxVO"%>
+<%@page import="com.model.safeboxDAO"%>
+<%@page import="com.model.boardVO"%>
+<%@page import="com.model.boardDAO"%>
 <%@page import="com.model.adminDAO"%>
 <%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
@@ -31,6 +35,13 @@
 			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
 			adminVO vo = (adminVO)session.getAttribute("admin");
 			adminDAO dao = new adminDAO();
+			
+			int mnt_seq = (int)session.getAttribute("mnt_seq_session");
+			boardDAO boarddao = new boardDAO();
+			boardVO boardvo = boarddao.board_all(mnt_seq);
+			
+			safeboxDAO safeboxdao = new safeboxDAO();
+			safeboxVO safeboxvo = safeboxdao.safeboxSelect(boardvo.getDevice_seq());
 			%>
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -57,40 +68,34 @@
 										<div class="board_view_wrap">
 											<div class="board_view">
 												<div class="title">
-													글 제목이 들어갑니다.
+													<%=boardvo.getMnt_title() %>
 												</div>
 												<div class="info">
 													<dl>
-														<dt>번호</dt>
-														<dd>1</dd>
+														<dt>글번호</dt>
+														<dd><%=boardvo.getMnt_seq() %></dd>
+
 													</dl>
 													<dl>
-														<dt>글쓴이</dt>
-														<dd>김이름</dd>
+														<dt>관리자ID</dt>
+														<dd><%=boardvo.getAdmin_id() %></dd>
 													</dl>
 													<dl>
 														<dt>작성일</dt>
-														<dd>2021.1.16</dd>
+														<dd><%=boardvo.getMnt_date() %></dd>
 													</dl>
 													<dl>
-														<dt>조회</dt>
-														<dd>33</dd>
+														<dt>SAFEBOX ID</dt>
+														<dd><%=safeboxvo.getDevice_id() %></dd>
 													</dl>
 												</div>
 												<div class="cont">
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다<br>
-													글 내용이 들어갑니다
-												</div>
+													<img src = "<%=boardvo.getMnt_file() %>"></div>
+												<div class="cont"><%=boardvo.getMnt_content() %></div>
 											</div>
 												<ul class="pagination">
 													<a href="board_list.jsp" ><input type="submit" value="목록" class="primary" /></a>
-													<a href="board_edit.jsp" ><input type="submit" value="수정" class="primary" /></a>	
+													<!-- <a href="board_edit.jsp" ><input type="submit" value="수정" class="primary" /></a> -->	
 												</ul>
 										</div>
 									</div>
@@ -189,5 +194,50 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+<script>
+				
+				function gascheck() {	
+					setInterval(() => {
+						$.ajax({
+							type : "get", 
+							/* data : {"email" : input.value}, */
+							url : "gasgasCheck", 
+							dataType : "text", 
+							success : function(data){
+								
+								if(data=="1"){
+									let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+									if(check){
+										window.location.href = "notice.jsp";
+										
+									}							
+								}
+							},
+							error : function(){ //통신 실패
+							}
+						});
+						
+						  $.ajax({
+							type : "get", 
+							url : "transeService", 
+							dataType : "text",
+							data : {'data' : '통신 성공'},
+							success : function(data){ 
+								console.log(data)
+							},
+							error : function(){
+							}
+						});  
+					
+					}, 1000);
+					
+				}
+				gascheck();
+				
+			
+			
+				
+			</script>
+			
 	</body>
 </html>

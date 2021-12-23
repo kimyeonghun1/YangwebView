@@ -81,5 +81,99 @@ public class noticeDAO {
 	      
 	   }
 	   
+	   public String selectOne() {
+			String notice_check = null;
+
+			try {
+				connection();
+
+				String sql = "select notice_check from tbl_notice where manager_no in (select max(notice_seq) from tbl_notice)";
+				psmt = conn.prepareStatement(sql);
+
+				rs = psmt.executeQuery();
+
+				while (rs.next()) {
+					System.out.println("최신 데이터 불러오기 성공!");
+
+					notice_check = rs.getString("notice_check");
+
+				}
+
+			} catch (Exception e) {
+				System.out.println("최신 데이터 조회 실패!");
+				e.getStackTrace();
+			} finally {
+				close();
+			}
+			return notice_check;
+
+		}
+
+		   public String notice_check_0(int notice_seq) {
+				String notice_check = null;
+				try {
+					connection();
+					
+					String sql = "update tbl_notice set notice_check='0' where notice_seq=?";
+					psmt = conn.prepareStatement(sql);
+					psmt.setInt(1, notice_seq);
+				
+					psmt.executeUpdate();
+				} catch (Exception e) {
+					System.out.println("0으로 수정 실패!");
+					e.printStackTrace();
+				}finally {
+					close();
+				}
+				return notice_check;
+			}
+
+		public int gasOne() {
+			int alert_cnt = 0;
+
+			try {
+				connection();
+
+				String sql = "select alert_cnt from tbl_notice where notice_seq in (select max(notice_seq) from tbl_notice);";
+				psmt = conn.prepareStatement(sql);
+
+				rs = psmt.executeQuery();
+
+				while (rs.next()) {
+					System.out.println("최신 데이터 불러오기 성공!");
+
+					alert_cnt = rs.getInt("alert_cnt");
+					
+				}
+			} catch (Exception e) {
+				System.out.println("최신 데이터 조회 실패!");
+				e.getStackTrace();
+			} finally {
+				close();
+			}
+
+			return alert_cnt;
+
+		}
+
+		public void Alert_cnt_1() {
+
+			try {
+				connection();
+
+				String sql = "update tbl_notice set alert_cnt='0' where notice_seq in (select max(notice_seq) from tbl_notice)";
+				psmt = conn.prepareStatement(sql);
+				
+
+				psmt.executeUpdate();
+			} catch (Exception e) {
+				System.out.println("수정 실패!");
+				e.printStackTrace();
+
+			} finally {
+				close();
+			}
+
+		}
 	 
 }

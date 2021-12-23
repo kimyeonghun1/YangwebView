@@ -14,6 +14,8 @@ public class fieldDAO {
 	int cnt = 0;
 	fieldVO vo1_field = null;
 	fieldVO vo2_field = null;
+	fieldVO vo3_field = null;
+	fieldVO vo4_field = null;
 	ArrayList<fieldVO> array_field_all = null;
 	String site_name;
 
@@ -52,18 +54,19 @@ public class fieldDAO {
 	   }
 	
 	//현장 추가
-	 public int fieldAdd(String field_name, String field_addr, String field_memo) {
+	 public int fieldAdd(String field_name, String field_addr,String field_file, String field_memo) {
 
 	      //받아온 값을 db 테이블에 삽입
 	      try {
 	         connection();
 	      
-	         String sql = "insert into site_loc(site_name, site_addr, site_memo) values(?,?,?)";
+	         String sql = "insert into site_loc(site_name, site_addr,site_file, site_memo) values(?,?,?,?)";
 	         
 	         psmt = conn.prepareStatement(sql);
 	         psmt.setString(1, field_name);
 	         psmt.setString(2, field_addr);
-	         psmt.setString(3, field_memo);
+	         psmt.setString(3, field_file);
+	         psmt.setString(4, field_memo);
 
 	         cnt = psmt.executeUpdate();
 	      
@@ -78,36 +81,38 @@ public class fieldDAO {
 	 
 	 //현장 리스트 확인
 	 public ArrayList<fieldVO> fieldAllList() {
-		 array_field_all = new ArrayList<fieldVO>();      
-		      
-		      try {
-		         connection();
-		         
-		         String sql = "select site_seq, site_name, site_addr from site_loc";
-		         psmt = conn.prepareStatement(sql);
-		                  
-		         rs = psmt.executeQuery();
-		         
-		         while(rs.next()) {
-		            System.out.println("현장 리스트 불러오기 성공..");
-		            
-		            int get_site_seq = rs.getInt("site_seq");
-		            String get_site_name = rs.getString("site_name");
-		            String get_site_addr = rs.getString("site_addr");
-		            
-		            vo1_field = new fieldVO(get_site_seq, get_site_name, get_site_addr);
-		            array_field_all.add(vo1_field);
-		         }   
-		         
-		      } catch (Exception e) {
-		         System.out.println("현장 전체 리스트 불러오기 실패..");
-		         e.printStackTrace();
-		      }finally {
-		         close();
-		         }
-		      return array_field_all;
-		      
-		   }   
+	       array_field_all = new ArrayList<fieldVO>();      
+	            
+	            try {
+	               connection();
+	               
+	               String sql = "select site_seq, site_name, site_addr, site_memo, site_file from site_loc";
+	               psmt = conn.prepareStatement(sql);
+	                        
+	               rs = psmt.executeQuery();
+	               
+	               while(rs.next()) {
+	                  System.out.println("현장 리스트 불러오기 성공..");
+	                  
+	                  int get_site_seq = rs.getInt("site_seq");
+	                  String get_site_name = rs.getString("site_name");
+	                  String get_site_addr = rs.getString("site_addr");
+	                  String get_site_memo = rs.getString("site_memo");
+	                  String get_site_file = rs.getString("site_file");
+	                  
+	                  vo1_field = new fieldVO(get_site_seq, get_site_name, get_site_addr, get_site_memo, get_site_file);
+	                  array_field_all.add(vo1_field);
+	               }   
+	               
+	            } catch (Exception e) {
+	               System.out.println("현장 전체 리스트 불러오기 실패..");
+	               e.printStackTrace();
+	            }finally {
+	               close();
+	               }
+	            return array_field_all;
+	            
+	         }   
 	 
 	 //현장 one select 확인
 	 public fieldVO fieldOne(int site_seq) {
@@ -184,4 +189,69 @@ public class fieldDAO {
 		      return cnt;
 		   }	 
 
+		//현장 one select 확인
+	      public fieldVO fieldName_Addr(int site_seq) {
+	         
+	              try {
+	                 connection();
+	                 
+	                 String sql = "select site_name, site_addr from site_loc where site_seq=?";
+	                 psmt = conn.prepareStatement(sql);
+	                          
+	                 psmt.setInt(1, site_seq);  
+	                 
+	                 rs = psmt.executeQuery();
+	                 
+	                 while(rs.next()) {
+	                    System.out.println("현장Name_Addr  불러오기 성공..");
+	                    
+	                    String get_site_name = rs.getString("site_name");
+	                    String get_site_addr = rs.getString("site_addr");
+	                    
+	                    vo3_field = new fieldVO(get_site_name, get_site_addr);
+	                 }   
+	                 
+	              } catch (Exception e) {
+	                 System.out.println("현장Name_Addr  불러오기 실패..");
+	                 e.printStackTrace();
+	              }finally {
+	                 close();
+	                 }
+	              return vo3_field;
+	              
+	           }   
+	      
+	      public fieldVO field_one(int site_seq) {
+	          
+	          try {
+	             connection();
+	             
+	             String sql = "select site_name, site_addr, site_file, site_memo from site_loc where site_seq=?";
+	             psmt = conn.prepareStatement(sql);
+	                      
+	             psmt.setInt(1, site_seq);  
+	             
+	             rs = psmt.executeQuery();
+	             
+	             while(rs.next()) {
+	                System.out.println("현장one  불러오기 성공..");
+	                
+	                String get_site_name = rs.getString("site_name");
+	                String get_site_addr = rs.getString("site_addr");
+	                String get_site_file = rs.getString("site_file");
+	                String get_site_memo = rs.getString("site_memo");
+	                
+	                vo4_field = new fieldVO(get_site_name, get_site_addr, get_site_file, get_site_memo);
+	             }   
+	             
+	          } catch (Exception e) {
+	             System.out.println("현장one  불러오기 실패..");
+	             e.printStackTrace();
+	          }finally {
+	             close();
+	             }
+	          return vo4_field;
+	          
+	       }  
+	      
 }

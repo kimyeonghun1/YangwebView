@@ -30,7 +30,7 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="mypage.jsp" class="logo" style="font-size: 20px;"><strong>회원 정보 수정</strong></a>
+									<a href="mypage.jsp" class="logo" style="font-size: 20px;"><strong>회원 정보 수정</strong><br>입력하지 않은 정보는 이전 정보 그대로 유지됩니다.</a>
 									<ul class="icons">
 										<li><a href="fieldlist.jsp" class="logo"><span class="label">현장목록</span></a></li>		
 										<li><a href="notice.jsp" class="logo"><span class="label"><strong>경고발생현황</strong></span></a></li>
@@ -45,28 +45,28 @@
 
 									<span class="image main"><img src="images/pic11.jpg" alt="" /></span>
 
-									<form method="post" action="updateServlet">
+									<form method="post" action="#">
                                         <div class="row gtr-uniform">
                                             <div class="row gtr-uniform">
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="admin_name" id="demo-name" placeholder="이름" />
+                                                    <input type="text" name="admin_name" id="admin_name" placeholder="이름" />
                                                 </div>
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="email" name="admin_email" id="demo-email" placeholder="이메일" />
+                                                    <input type="email" name="admin_email" id="admin_email" placeholder="이메일" />
                                                 </div>
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="password" name="admin_pwd" id="demo-email" placeholder="비밀번호" />
+                                                    <input type="password" name="admin_pwd" id="admin_pwd" placeholder="비밀번호" />
                                                 </div>
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="admin_phone" id="demo-email" placeholder="전화번호" />
+                                                    <input type="text" name="admin_phone" id="admin_phone" placeholder="전화번호" />
                                                 </div>   
                                            		<div class="col-12">
-                                                	<input type="text" name="admin_dept" id="demo-email" value="" placeholder="소속" />
+                                                	<input type="text" name="admin_dept" id="admin_dept" value="" placeholder="소속" />
                                            		</div>
                                            
                                             <div class="col-12" style="text-align: center;">
                                                 <ul class="actions">
-                                                    <li><input type="submit" value="수정" class="primary" style="margin-right: 10px;" ><input type="reset" value="초기화" style="margin-left: 10px;"></li>
+                                                    <li><input type="button" onclick="mypage()" value="수정" class="primary" style="margin-right: 10px;" ><input type="reset" value="초기화" style="margin-left: 10px;"></li>
                                                     
                                                 </ul>
                                             </div>
@@ -167,5 +167,79 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+<script>
+			function mypage() {
+				
+				var admin_pwd = document.getElementById("admin_pwd");
+				var admin_name = document.getElementById("admin_name");
+				var admin_phone = document.getElementById("admin_phone");
+				var admin_email = document.getElementById("admin_email");
+				var admin_dept = document.getElementById("admin_dept");
+								
+				$.ajax({
+					type : "post", //데이터 전송 요청 방식
+					data : {
+							"admin_pwd" :	admin_pwd.value,
+							"admin_name" :	admin_name.value,
+							"admin_phone" :	admin_phone.value,
+							"admin_email" :	admin_email.value,
+							"admin_dept" :	admin_dept.value
+							},
+					url : "updateServlet", //데이터를 전송, 요청하는 서버 페이지
+					dataType : "text", //응답데이터의 형식
+					success : function(data){ //통신 성공
+						
+						if(data=="0"){
+							alert('회원 정보 수정을 다시 시도해 주세요.')
+							window.location.href = "mypage.jsp"; 
+						}else{
+							
+							alert('회원 정보 수정 완료되었습니다.')
+							window.location.href = "notice.jsp"; 
+						}
+					},
+					error : function(){ //통신 실패
+					}
+				});
+			}
+			
+			function gascheck() {	
+				setInterval(() => {
+					$.ajax({
+						type : "get", 
+						/* data : {"email" : input.value}, */
+						url : "gasgasCheck", 
+						dataType : "text", 
+						success : function(data){
+							
+							if(data=="1"){
+								let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+								if(check){
+									window.location.href = "notice.jsp";
+									
+								}							
+							}
+						},
+						error : function(){ //통신 실패
+						}
+					});
+					
+					  $.ajax({
+						type : "get", 
+						url : "transeService", 
+						dataType : "text",
+						data : {'data' : '통신 성공'},
+						success : function(data){ 
+							console.log(data)
+						},
+						error : function(){
+						}
+					});  
+				
+				}, 1000);
+				
+			}
+			gascheck();
+			</script>
 	</body>
 </html>

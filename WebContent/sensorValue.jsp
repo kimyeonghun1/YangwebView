@@ -1,3 +1,5 @@
+<%@page import="com.model.safeboxVO"%>
+<%@page import="com.model.safeboxDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.model.fieldVO"%>
 <%@page import="com.model.fieldDAO"%>
@@ -47,12 +49,18 @@ table .ttbody {
 		//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
 	adminVO vo = (adminVO) session.getAttribute("admin");
 	adminDAO dao = new adminDAO();
+	
+	fieldVO fieldvo = (fieldVO)session.getAttribute("fieldvo_session");
+	
+	int field_seq_session = (int)session.getAttribute("field_seq_session_");
+	safeboxDAO safeboxdao = new safeboxDAO();
+	ArrayList<safeboxVO> safebox_array_all = safeboxdao.safeboxAllList(field_seq_session);
 	%>
 	<div id="wrapper">
 		<div id="main">
 			<div class="inner">
 				<header id="header">
-					<a href="#" class="logo" style="font-size: 20px;"><strong></strong><br></a>
+					<a href="#" class="logo" style="font-size: 20px;"><strong><%=fieldvo.getField_name() %></strong><br><%=fieldvo.getField_addr() %></a>
 
 					<ul class="icons">
 
@@ -64,25 +72,28 @@ table .ttbody {
 
 
 				<section>
+				<%for(safeboxVO vo2_safebox : safebox_array_all){%>
 					<div class="box"
 						style="display: inline-block; position: relative; width: 100%">
 						<div class="row">
-							
+							<div class="col-2">
+								<img src="images/비정상동그라미.png">
+							</div>
 							<div class="col-4">
-								<h3>SAFEBOX ID</h3>
+								<h3><%=vo2_safebox.getDevice_seq() %>. <%=vo2_safebox.getDevice_id() %></h3>
 							</div>
 							<div class="col-3">
 								<label class="switch-button"> <input type="checkbox" />
 									<div class="onoff-switch"></div>
 								</label>
 							</div>
+							
 
 							<div class="row" style="margin-left: 6px ;width:100%">
 								<ul class="alt">
 									<li><h4>기기 위치</h4>
-										<p>위치를 넣어주세요</p></li>
-									<li><h4>측정 주기</h4>
-										<p>주기를 넣어주세요</p>
+										<p><%=vo2_safebox.getDevice_location() %></p></li>
+									<li><h4>측정 주기</h4> : <p>주기를 넣어주세요</p>
 										<form method="post" action="#">
 											<div class="row">
 												<div class="col-6">
@@ -115,14 +126,14 @@ table .ttbody {
 
 						</div>
 
-
+						
 					</div>
 
 
 				</section>
 
 
-				<section class="banner">
+				
 					<div class="table-wrapper">
 						<table>
 							<thead>
@@ -146,8 +157,13 @@ table .ttbody {
 							</tbody>
 
 						</table>
+						
 					</div>
-				</section>
+					
+				<section class="banner"></section>
+				<%}%>
+				
+				
 			</div>
 		</div>
 
@@ -271,5 +287,44 @@ table .ttbody {
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/onOff.js"></script>
 
+	<script>
+	function gascheck() {	
+		setInterval(() => {
+			$.ajax({
+				type : "get", 
+				/* data : {"email" : input.value}, */
+				url : "gasgasCheck", 
+				dataType : "text", 
+				success : function(data){
+					
+					if(data=="1"){
+						let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+						if(check){
+							window.location.href = "notice.jsp";
+							
+						}							
+					}
+				},
+				error : function(){ //통신 실패
+				}
+			});
+			
+			  $.ajax({
+				type : "get", 
+				url : "transeService", 
+				dataType : "text",
+				data : {'data' : '통신 성공'},
+				success : function(data){ 
+					console.log(data)
+				},
+				error : function(){
+				}
+			});  
+		
+		}, 1000);
+		
+	}
+	gascheck();
+	</script>
 </body>
 </html>

@@ -77,10 +77,18 @@
 												<%for(boardVO vo_board : boardall){%>
 												<div>
 													<div class="num"><%=vo_board.getMnt_seq() %></div>
-													<div class="title"><a href="view.jsp"><%=vo_board.getMnt_title() %></a></div>
+													<% if(vo.getAdmin_id().equals(vo_board.getAdmin_id()) ){  %>
+													<div class="title">
+													<a href="boardEditCheckService?mnt_seq=<%=vo_board.getMnt_seq() %>"><%=vo_board.getMnt_title() %></a>
+													</div>
+													<%}else{ %>
+													<div class="title">
+													<a href="boardViewCheckService?mnt_seq=<%=vo_board.getMnt_seq() %>"><%=vo_board.getMnt_title() %></a>
+													</div>
+													<%} %>
 													<div class="writer"><%=vo_board.getAdmin_id() %></div>
 													<div class="date"><%=vo_board.getMnt_date() %></div>
-													<div class="count"><a href="boardEditCheckService?mnt_seq=<%=vo_board.getMnt_seq()%>" class="button">수정</a></div>
+													<%-- <div class="count"><a href="boardEditCheckService?mnt_seq=<%=vo_board.getMnt_seq()%>" class="button">수정</a></div> --%>
 												</div>
 												<%}%>
 											</div>
@@ -99,7 +107,7 @@
 											</ul>
 											</div>
 											<ul class="pagination">
-											<a href="board_write.jsp" ><input type="submit" value="등록" class="primary" /></a>
+											<a href="board_write.jsp" class="button primary">등록</a>
 											</ul>	
 										</div>
 									</div>
@@ -161,30 +169,6 @@
 				<%} %>
 
 							<!-- Section -->
-								<!-- <section>
-									<header class="major">
-										<h2>Ante interdum</h2>
-									</header>
-									<div class="mini-posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-									</div>
-									<ul class="actions">
-										<li><a href="#" class="button">More</a></li>
-									</ul>
-								</section> -->
-
-							<!-- Section -->
 								<section>
 									<header class="major">
 										<h2>내 정보</h2>
@@ -220,5 +204,50 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+<script>
+				
+				function gascheck() {	
+					setInterval(() => {
+						$.ajax({
+							type : "get", 
+							/* data : {"email" : input.value}, */
+							url : "gasgasCheck", 
+							dataType : "text", 
+							success : function(data){
+								
+								if(data=="1"){
+									let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+									if(check){
+										window.location.href = "notice.jsp";
+										
+									}							
+								}
+							},
+							error : function(){ //통신 실패
+							}
+						});
+						
+						  $.ajax({
+							type : "get", 
+							url : "transeService", 
+							dataType : "text",
+							data : {'data' : '통신 성공'},
+							success : function(data){ 
+								console.log(data)
+							},
+							error : function(){
+							}
+						});  
+					
+					}, 1000);
+					
+				}
+				gascheck();
+				
+			
+			
+				
+			</script>
+			
 	</body>
 </html>

@@ -15,11 +15,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
+<style>
+	
+	.text{
+		background:#000000;
+		opacity:0;
+	}
+	.image:hover .text{
+		opacity:0.5;
+		text-align:center;
+		color:#ffffff;
+	}
+</style>
 <body class="is-preload">
 			<%
 			//현재 로그인 상태인지 확인 (vo == null > 로그인 하지 않은 상태)
 			adminVO vo = (adminVO)session.getAttribute("admin");
 			adminDAO dao = new adminDAO();
+			
 			fieldDAO fielddao = new fieldDAO();
 		 	ArrayList<fieldVO> array_field_all = fielddao.fieldAllList();
 			%>
@@ -33,7 +46,7 @@
 
             <!-- Header -->
             <header id="header">
-                <a href="fieldlist.jsp" class="logo" style="font-size: 20px;"><strong>현장 목록</strong></a>
+                <a href="fieldlist.jsp" class="logo" style="font-size: 20px;"><strong>현장 목록</strong><br>현장 사진에 마우스를 올리면 메모를 확인할 수 있습니다.</a>
                 <ul class="icons">
                     <li><a href="fieldAdd.jsp" class="logo"><span class="label">현장추가</span></a></li>
                     <li><a href="notice.jsp" class="logo"><span class="label"><strong>경고발생현황</strong></span></a></li>
@@ -51,14 +64,23 @@
                 <div class="posts">
                 <%for(fieldVO vo1_field : array_field_all){%>
                     <article>
-                        <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+                        <div class="image">
+								  <img src="images/pic01.jpg" > 
+									<div class="text">
+									
+										<p><%=vo1_field.getField_memo() %></p>
+									</div>
+							</div>
                         <h3><%=vo1_field.getField_seq() %>. <%=vo1_field.getField_name() %></h3>
                         <p><%=vo1_field.getField_addr() %></p>
                         <div class="col-6 col-12-small">
                         <ul class="actions stacked">
-                            <li><a href="sensorValue.jsp" class="button primary fit " style="margin-right: 10px;">SAFEBOX 확인</a></li>
-                            <li><a href="fieldUpdateCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button fit " style="margin-right: 10px;">현장 정보 수정</a></li>
-                            <li><a href="safeboxListCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button primary fit " style="margin-right: 10px;">설치 SAFEBOX 목록</a></li>
+                            <li><a href="sensorValueCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button primary"
+									style="margin-right: 10px;">SAFEBOX 확인</a>
+									<a href="fieldUpdateCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button"
+									style="margin-right: 10px;">현장 정보 수정</a>
+									<a href="safeboxListCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button">설치 SAFEBOX 목록</a>
+								</li>
                         </ul>
                         </div>
                     </article>
@@ -153,7 +175,45 @@
 <script src="assets/js/breakpoints.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
-
+<script>
+function gascheck() {	
+	setInterval(() => {
+		$.ajax({
+			type : "get", 
+			/* data : {"email" : input.value}, */
+			url : "gasgasCheck", 
+			dataType : "text", 
+			success : function(data){
+				
+				if(data=="1"){
+					let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+					if(check){
+						window.location.href = "notice.jsp";
+						
+					}							
+				}
+			},
+			error : function(){ //통신 실패
+			}
+		});
+		
+		  $.ajax({
+			type : "get", 
+			url : "transeService", 
+			dataType : "text",
+			data : {'data' : '통신 성공'},
+			success : function(data){ 
+				console.log(data)
+			},
+			error : function(){
+			}
+		});  
+	
+	}, 1000);
+	
+}
+gascheck();
+</script>
 </body>
 
 </html>

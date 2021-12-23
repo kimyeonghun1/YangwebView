@@ -218,5 +218,33 @@ public class safeboxDAO {
             return vo3_safebox;
             
          }   
+		
+		public int field_seq(int device_seq) {
+	          int site_seq = 0;
+	          try {
+	             connection();
+	             
+	             String sql = "select site_seq from tbl_device where device_seq=?";
+	             psmt = conn.prepareStatement(sql);
+	                      
+	             psmt.setInt(1, device_seq);  
+	             
+	             rs = psmt.executeQuery();
+	             
+	             while(rs.next()) {
+	                System.out.println("현장seq  불러오기 성공..");
+	                
+	                site_seq = rs.getInt("site_seq");
+	             }   
+	             
+	          } catch (Exception e) {
+	             System.out.println("현장seq  불러오기 실패..");
+	             e.printStackTrace();
+	          }finally {
+	             close();
+	             }
+	          return site_seq;
+	          
+	       }  
 	   
 }

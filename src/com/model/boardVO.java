@@ -20,7 +20,7 @@ public class boardVO {
 		this.mnt_file = mnt_file;
 	}
 	
-	// 包府 老瘤 累己, view 积己磊
+	// 包府 老瘤 累己, 
 	public boardVO(String mnt_title,String mnt_content,String mnt_file,int device_seq, String admin_id)
 	{
 		this.mnt_title = mnt_title;
@@ -42,6 +42,20 @@ public class boardVO {
 	public boardVO(int mnt_seq, String mnt_title, String admin_id, String mnt_date) {
 		this.mnt_seq = mnt_seq;
 		this.mnt_title = mnt_title;
+		this.admin_id = admin_id;
+		this.mnt_date = mnt_date;
+	}
+	
+	
+	//view 积己磊
+	public boardVO(int mnt_seq, String mnt_title, String mnt_content, String mnt_file, int device_seq, String admin_id,
+			String mnt_date) {
+		super();
+		this.mnt_seq = mnt_seq;
+		this.mnt_title = mnt_title;
+		this.mnt_content = mnt_content;
+		this.mnt_file = mnt_file;
+		this.device_seq = device_seq;
 		this.admin_id = admin_id;
 		this.mnt_date = mnt_date;
 	}

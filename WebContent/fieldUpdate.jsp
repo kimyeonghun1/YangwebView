@@ -1,3 +1,5 @@
+<%@page import="com.model.fieldVO"%>
+<%@page import="com.model.fieldDAO"%>
 <%@page import="com.model.adminDAO"%>
 <%@page import="com.model.adminVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
@@ -15,6 +17,38 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
+	<style>
+	.filebox .upload-name {
+			margin-top : 30px;
+			display: inline-block;
+			height: 40px;
+			padding: 0 10px;
+			vertical-align: middle;
+			margin-bottom: 12px;
+			border: 1px solid #dddddd;
+			width: 50%;
+			color: #999999;
+		}
+		.filebox label {
+			margin-top : 30px;
+			display: inline-block;
+			padding: 10px 20px;
+			color: #fff;
+			vertical-align: middle;
+			background-color: #999999;
+			cursor: pointer;
+			height: 40px;
+			margin-left: 10px;
+		}
+		.filebox input[type="file"] {
+    		position: absolute;
+    		width: 0;
+    		height: 0;
+    		padding: 0;
+    		overflow: hidden;
+    		border: 0;
+		}
+	</style>
 	<body class="is-preload">
 
 <%
@@ -23,6 +57,9 @@
 			
 			adminVO vo = (adminVO)session.getAttribute("admin");
 			adminDAO dao = new adminDAO();
+			
+			fieldDAO fielddao = new fieldDAO();
+			fieldVO fieldvo = fielddao.field_one(vo_field_session);
 		%>
 		
 		<!-- Wrapper -->
@@ -46,17 +83,22 @@
 
 									<!-- <span class="image main"><img src="images/pic11.jpg" alt="" /></span> -->
 
-									<form method="post" action="#">
+									<form method="post" encType = "multipart/form-data" action="#">
                                         <div class="row gtr-uniform">
                                             <div class="row gtr-uniform">
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="field_name" id="field_name" value="" placeholder="현장명" />
+                                                    <input type="text" name="field_name" id="field_name" value="<%=fieldvo.getField_name() %>" placeholder="현장명" /><br>
+                                                    <input type="text" name="field_addr" id="field_addr" value="<%=fieldvo.getField_addr() %>" placeholder="주소" />
                                                 </div>
                                                 <div class="col-6 col-12-xsmall">
-                                                    <input type="text" name="field_addr" id="field_addr" value="" placeholder="주소" />
+                                                    <div class="filebox">
+																<input class="upload-name" name ="field_file" id = "field_file"  placeholder="첨부파일" value="<%=fieldvo.getField_file() %>">
+																<label for="file">파일찾기</label>
+																<input type="file" id="file">
+															</div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <textarea name="field_memo" id="field_memo" placeholder="메모" rows="6"></textarea>
+                                                    <textarea name="field_memo" id="field_memo" placeholder="메모" rows="6"><%=fieldvo.getField_memo() %></textarea>
                                                 </div>
                                                 
                                             <!-- Break -->
@@ -200,6 +242,44 @@
 					}
 				});
 			}
+				
+				function gascheck() {	
+					setInterval(() => {
+						$.ajax({
+							type : "get", 
+							/* data : {"email" : input.value}, */
+							url : "gasgasCheck", 
+							dataType : "text", 
+							success : function(data){
+								
+								if(data=="1"){
+									let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+									if(check){
+										window.location.href = "notice.jsp";
+										
+									}							
+								}
+							},
+							error : function(){ //통신 실패
+							}
+						});
+						
+						  $.ajax({
+							type : "get", 
+							url : "transeService", 
+							dataType : "text",
+							data : {'data' : '통신 성공'},
+							success : function(data){ 
+								console.log(data)
+							},
+							error : function(){
+							}
+						});  
+					
+					}, 1000);
+					
+				}
+				gascheck();
 			
 			</script>
 			

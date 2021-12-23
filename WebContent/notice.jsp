@@ -57,7 +57,7 @@
 									<!-- <header class="main">
 										<h1></h1>
 									</header> -->
-
+<form action="noticeDeleteCheckService" method="post">
 									<div class="table-wrapper">
                                         <table>
                                             <thead>
@@ -73,15 +73,19 @@
                                             </thead>
                                             <tbody>
                                             <% for(noticeVO noticevo : notice_array) {
-                                            	safeboxVO safeboxvo = safeboxdao.safeboxSelect(noticevo.getDevice_seq());%>
+                                            	safeboxVO safeboxvo = safeboxdao.safeboxSelect(noticevo.getDevice_seq());
+                                            	if(noticevo.getNotice_check()==1){
+                                            	session.setAttribute("notice_seq", noticevo.getNotice_seq());
+                                            	int field_seq = safeboxdao.field_seq(noticevo.getDevice_seq());%>
                                                 <tr>
                                                     <td><%=noticevo.getNotice_seq() %></td>
                                                     <td><%=safeboxvo.getDevice_id() %></td>
                                                     <td><%=noticevo.getNotice_content() %></td>
                                                     <td><%=noticevo.getNotice_date() %></td>
-                                                    <td><a href="#" class="logo" style="outline: none; text-decoration: none;">이동</a></td>
-                                                    <td><div class="col-6 col-12-small"><input type="checkbox" id="1" name="1"><label for="1"></label></div></td>
+                                                    <td><a href="sensorValueCheckService?field_seq=<%=field_seq %>" class="logo" style="outline: none; text-decoration: none;">이동</a></td>
+                                                    <td><div class="col-6 col-12-small"><input type="checkbox" id="<%=noticevo.getNotice_seq() %>" name="1"><label for="<%=noticevo.getNotice_seq() %>"></label></div></td>
                                                 </tr>
+                                                <%} %>
                                                 <%} %>
                                                 
                                                 
@@ -96,7 +100,7 @@
                                             </ul>
                                         </div>
                                     </div>
-
+</form>
 								</section>
 
 						</div>
@@ -120,7 +124,7 @@
 										<li><a href="login.jsp">로그인</a></li>
 										<%}else{ %>
 										<li><a href="mypage.jsp">회원정보수정</a></li>
-										<li><a href="LogoutServlet" class="logo">로그아웃</a></li>
+										<li><a href="logoutServlet" class="logo">로그아웃</a></li>
 										<%} %>
 									</ul>
 								</nav>
@@ -184,6 +188,49 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
+<script>
+				
+				function gascheck() {	
+					setInterval(() => {
+						$.ajax({
+							type : "get", 
+							/* data : {"email" : input.value}, */
+							url : "gasgasCheck", 
+							dataType : "text", 
+							success : function(data){
+								
+								if(data=="1"){
+									let check = confirm("※위험※  유출 현황을 확인해주세요!!  ※위험※");
+									if(check){
+										window.location.href = "notice.jsp";
+										
+									}							
+								}
+							},
+							error : function(){ //통신 실패
+							}
+						});
+						
+						  $.ajax({
+							type : "get", 
+							url : "transeService", 
+							dataType : "text",
+							data : {'data' : '통신 성공'},
+							success : function(data){ 
+								console.log(data)
+							},
+							error : function(){
+							}
+						});  
+					
+					}, 1000);
+					
+				}
+				gascheck();
+				
+			
+			
+				
+			</script>
 	</body>
 </html>
