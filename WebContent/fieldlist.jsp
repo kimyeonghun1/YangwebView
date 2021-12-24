@@ -74,12 +74,12 @@
                         <h3><%=vo1_field.getField_seq() %>. <%=vo1_field.getField_name() %></h3>
                         <p><%=vo1_field.getField_addr() %></p>
                         <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
+                        <ul class="actions fit">
                             <li><a href="sensorValueCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button primary"
-									style="margin-right: 10px;">SAFEBOX 확인</a>
+									style="margin-right: 10px;">SAFEBOX 확인</a><br><br>
 									<a href="fieldUpdateCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button"
-									style="margin-right: 10px;">현장 정보 수정</a>
-									<a href="safeboxListCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button">설치 SAFEBOX 목록</a>
+									style="margin-right: 10px;">현장 정보 수정</a><br><br>
+									<a href="safeboxListCheckService?field_seq=<%=vo1_field.getField_seq()%>" class="button">설치 SAFEBOX 목록</a><br><br>
 								</li>
                         </ul>
                         </div>
