@@ -62,7 +62,7 @@ adminDAO dao = new adminDAO();
 						<tr>
 							<th>번호</th>
 							<th>ID</th>
-							<th>설치일</th>
+							<th>설치장소</th>
 							<th>수정</th>
 							<th>제거</th>
 						</tr>
@@ -72,7 +72,7 @@ adminDAO dao = new adminDAO();
 						<tr>
 							<td><%=vo2_safebox.getDevice_seq() %> </td>
 							<td><%=vo2_safebox.getDevice_id() %> </td>
-							<td><%=vo2_safebox.getReg_date() %> </td>
+							<td><%=vo2_safebox.getDevice_location() %> </td>
 							<td><a href="safeboxUpdateCheckService?safebox_seq=<%=vo2_safebox.getDevice_seq() %> " class="logo" style="outline: none; text-decoration: none;">수정</a></td>
 							<td><a href="safeboxDeleteService?safebox_seq=<%=vo2_safebox.getDevice_seq() %> " class="logo" style="outline: none; text-decoration: none;">제거</a></td>
 						</tr>
