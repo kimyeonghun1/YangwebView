@@ -99,13 +99,13 @@
 											<form method="post" action="boardEdit">
 												<div class="title">
 													<dl>
-														<dt>제목</dt>
+														
 														<dd><input type="text" name="mnt_title" value="<%=boardvo.getMnt_title() %>" placeholder="제목 입력" value="글 제목이 들어갑니다"></dd>
 													</dl>
 												</div>
 												<div class="info">
 													<dl>
-														<dt>SAFEBOX 선택</dt>
+														
 														<dd><select name="device_seq" id="demo-category">
 			                                                    <option value=""> SAFEBOX LIST </option>
 			                                                    <%for(safeboxVO vo2_safebox : safebox_array_all){%>
@@ -113,17 +113,19 @@
 			                                                    <%}%>
 			                                                </select></dd>
 													</dl>
+													
 													<dl>
-														<dt>사진첨부</dt>
+														
 														<dd><div class="filebox">
-																<input class="upload-name" name ="mnt_file"  placeholder="첨부파일">
+																<!-- <input class="upload-name" name ="mnt_file"  placeholder="첨부파일"> -->
 																<label for="file">파일찾기</label>
 																<input type="file" id="file">
 															</div></dd>
 													</dl>
 												</div>
 												<div class="cont">
-													<img src="<%=boardvo.getMnt_file() %>">
+												<br><br>
+													<img src="images/KakaoTalk_20211224_150820053.jpg">
 													<textarea placeholder="내용 입력" name="mnt_content"><%=boardvo.getMnt_content() %></textarea>
 												</div>
 											</div>

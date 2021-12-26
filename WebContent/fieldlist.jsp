@@ -46,7 +46,7 @@
 
             <!-- Header -->
             <header id="header">
-                <a href="fieldlist.jsp" class="logo" style="font-size: 20px;"><strong>현장 목록</strong><br>현장 사진에 마우스를 올리면 메모를 확인할 수 있습니다.</a>
+                <a href="fieldlist.jsp" class="logo" style="font-size: 20px;"><strong>현장 목록</strong></a>
                 <ul class="icons">
                     <li><a href="fieldAdd.jsp" class="logo"><span class="label">현장추가</span></a></li>
                     <li><a href="notice.jsp" class="logo"><span class="label"><strong>경고발생현황</strong></span></a></li>
@@ -60,12 +60,16 @@
 
             <!-- Section -->
             <section>
-
+				<p>현장 사진을 클릭하면 메모를 확인할 수 있습니다.</p>
                 <div class="posts">
                 <%for(fieldVO vo1_field : array_field_all){%>
                     <article>
                         <div class="image">
-								  <img src="images/pic01.jpg" > 
+								  <%if(vo1_field.getField_seq()==13){ %>
+								  <img src="images/현장1.jpg" > 
+								  <%}else{%>
+								   <img src="images/현장 2.jpg" >
+								  <%}%>
 									<div class="text">
 									
 										<p><%=vo1_field.getField_memo() %></p>
