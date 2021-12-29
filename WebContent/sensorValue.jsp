@@ -81,11 +81,7 @@
                      <div class="box" style="display: inline-block;; margin-top: 1px">
                         <div class="row">
                            <div class="col-2">
-                           <%if(vo2_safebox.getDevice_seq()==1){ %>
-                              <img src="images/비정상동그라미.png">
-                              <%}else{ %>
-                              <img src="images/정상동그라미.png">
-                              <%} %>
+                           <img id="imgcircle" src="">
                            </div>
                            <div class="col-4">
                               <h3><%=vo2_safebox.getDevice_seq()%>.
@@ -120,11 +116,13 @@
                                              <div class="toggle toggle--on-off">
                                                 <div class="toggle__switch">
                                                    <input class="toggle__checkbox" id="toggle1"
-                                                      type="checkbox" name="toggle1" checked="" /><span
+                                                      type="checkbox" name="toggle1" onclick = "gasgascheck()"/><span
                                                       class="toggle__handle"></span><span
                                                       class="toggle__backdrop"></span>
                                                 </div>
-                                                <label class="toggle__label" for="toggle1"><p>이 문구를 클릭하면 전원이 꺼집니다.</p></label>
+                                                <label class="toggle__label" for="toggle1">
+                                                <span onclick="imgChange()"> ON /</span><span onclick="imgChange2()"> OFF</span>
+                                                </label>
                                              </div>
                                           </div>
                                        </div>
@@ -305,49 +303,19 @@
                                              <option value="9">9</option>
                                              <option value="10">10</option>
                                           </select></td>
-                                 <td><form>
-                                       <input type="button" value="설정"  class="primary" onclick="selectSubmit()">
-                                    </form></td>
+                                 <td></td>
                               </tr>
                               <tr>
                                  <td id="id_temp">온도</td>
                                  <td id= "temp"></td>
-                                 <td><select name=temp_num onchange="selectBoxChange();"
-                                             id="changetemp">
-                                             <option value="1">1</option>
-                                             <option value="2">2</option>
-                                             <option value="3">3</option>
-                                             <option value="4">4</option>
-                                             <option value="5">5</option>
-                                             <option value="6">6</option>
-                                             <option value="7">7</option>
-                                             <option value="8">8</option>
-                                             <option value="9">9</option>
-                                             <option value="10">10</option>
-                                          </select></td>
-                                 <td><form>
-                                       <input type="button" value="설정"  class="primary" onclick="selectSubmit()">
-                                    </form></td>
+                                 <td></td>
+                                 <td></td>
                               </tr>
                               <tr>
                                  <td id="id_hum">습도</td>
                                  <td id= "hum"></td>
-                                 <td><select name=hum_num onchange="selectBoxChange();"
-                                             id="changehum">
-                                             <option value="1">1</option>
-                                             <option value="2">2</option>
-                                             <option value="3">3</option>
-                                             <option value="4">4</option>
-                                             <option value="5">5</option>
-                                             <option value="6">6</option>
-                                             <option value="7">7</option>
-                                             <option value="8">8</option>
-                                             <option value="9">9</option>
-                                             <option value="10">10</option>
-                                          </select></td>
-                                 <td><form>
-                                       <input type="button" value="설정"  class="primary" onclick="selectSubmit()">
-                                    </form></td>
+                                 <td></td>
+                                 <td></td>
                               </tr>
                               
                            </tbody>
@@ -490,61 +458,83 @@
    <script src="assets/js/onOff.js"></script>
 
 
-   <script type="text/javascript">
-      function gasgascheck() {   
-         setInterval(() => {
-            
-            $.ajax({
-               type : "get",
-               /* data : {"email" : input.value}, //전송하는 데이터 */
-               url : "Getsensor", //데이터를 전송, 요청하는 서버 페이지
-               dataType : "json", //응답데이터의 형식
-               success : function(data){ //통신 성공
-                  /* alert(data) */
-                  
-                  let result =[];
-                  let i = 0;
-                  for(i=0;i<data.length;i++){
-                     result = JSON.parse(data[i]);
-                  }
-                  
-                  
-                  
-                
-                 $("#tol").text(result.Tolueno);
-                 $("#nh4").text(result.NH4);
-                 $("#ace").text(result.Acetona);
-                 $("#co2").text(result.Co2);
-                 $("#co").text(result.Co);
-                 $("#form").text(result.Formalin);
-                 $("#temp").text(result.Temp);
-                 $("#hum").text(result.Humidity);
-                
-            
-            
-            
-
-
-                  //console.log(result[i].temp);
-                  console.log(result);
-                  console.log(result.NH4);
-                  
-                  console.log(result.Temp);
-                  console.log(result.Humidity);
-                  //result[i].temp 배열안에 temp값을 가지고 오는거
-                  
-               
-               },
-               error : function(){ //통신 실패
-               
-               }
-            });
-            
-            
-         }, 1000);
+   <script>
+   
+   function imgChange(){
+		document.getElementById("imgcircle").src = "images/정상동그라미.png";
+			
+	}
+	
+   function imgChange2(){
+		document.getElementById("imgcircle").src = "";
+			
+	}
+	
+	
+   let interval;
+   function gasgascheck() {   
+      if(document.getElementById('toggle1').checked){
+     	 
+     	 interval=setInterval(() => {
          
+         $.ajax({
+            type : "get",
+            /* data : {"email" : input.value}, //전송하는 데이터 */
+            url : "Getsensor", //데이터를 전송, 요청하는 서버 페이지
+            dataType : "json", //응답데이터의 형식
+            success : function(data){ //통신 성공
+               /* alert(data) */
+               
+               let result =[];
+               let i = 0;
+               for(i=0;i<data.length;i++){
+                  result = JSON.parse(data[i]);
+               }
+               
+             
+              $("#tol").text(result.Tolueno + " ㎍/㎥");
+              $("#nh4").text(result.NH4 + " ppm");
+              $("#ace").text(result.Acetona+ " ppm");
+              $("#co2").text(result.Co2+ " ppm");
+              $("#co").text(result.Co+ " ppm");
+              $("#form").text(result.Formalin + " ㎍/㎥");
+              $("#temp").text(result.Temp + " ℃");
+              $("#hum").text(result.Humidity + " %");
+             
+         
+               //console.log(result[i].temp);
+               console.log(result);
+               console.log(result.NH4);
+               
+               console.log(result.Temp);
+               console.log(result.Humidity);
+               //result[i].temp 배열안에 temp값을 가지고 오는거
+            
+            
+            },
+            error : function(){ //통신 실패
+         	  
+            }
+         });
+         
+         
+      }, 1000);}
+      else{
+     	 clearInterval(interval);
+     	 $("#tol").text('');
+          $("#nh4").text('');
+          $("#ace").text('');
+          $("#co2").text('');
+          $("#co").text('');
+          $("#form").text('');
+          $("#temp").text('');
+          $("#hum").text('');
+     	 
       }
-      gasgascheck();
+      
+      
+   }
+
       
    </script>
 
